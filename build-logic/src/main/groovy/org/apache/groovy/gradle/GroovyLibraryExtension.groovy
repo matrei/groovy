@@ -110,7 +110,7 @@ class GroovyLibraryExtension {
             it.dependsOn(jarjar)
             it.from.set(jarjar.flatMap { it.outputFile })
             if (librariesToRepackage) {
-                it.repackagedLibraries.from configurations.getByName('runtimeClasspath').incoming.artifactView { view ->
+                it.repackagedLibraries.from configurations.named('runtimeClasspath').get().incoming.artifactView { view ->
                     view.componentFilter { ComponentIdentifier component ->
                         if (component instanceof ModuleComponentIdentifier) {
                             return component.module in librariesToRepackage
@@ -153,10 +153,10 @@ class GroovyLibraryExtension {
 
     void registerOptionalFeature(String name) {
         javaPluginExtension.registerFeature(name) {
-            it.usingSourceSet(javaPluginExtension.sourceSets.getByName("main"))
+            it.usingSourceSet(javaPluginExtension.sourceSets.named("main").get())
         }
         AdhocComponentWithVariants component = findComponent()
-        def apiElements = configurations.getByName("${name}ApiElements")
+        def apiElements = configurations.named("${name}ApiElements").get()
         apiElements.artifacts.clear()
         component.addVariantsFromConfiguration(apiElements) {
             if (it.configurationVariant.name != "${name}ApiElements") {
@@ -165,7 +165,7 @@ class GroovyLibraryExtension {
             it.mapToMavenScope("compile")
             it.mapToOptional()
         }
-        def runtimeElements = configurations.getByName("${name}RuntimeElements")
+        def runtimeElements = configurations.named("${name}RuntimeElements").get()
         runtimeElements.artifacts.clear()
         component.addVariantsFromConfiguration(runtimeElements) {
             if (it.configurationVariant.name != "${name}RuntimeElements") {
@@ -183,7 +183,7 @@ class GroovyLibraryExtension {
     }
 
     private AdhocComponentWithVariants findComponent() {
-        (AdhocComponentWithVariants) components.getByName("groovyLibrary")
+        (AdhocComponentWithVariants) components.named("groovyLibrary").get()
     }
 
     void configureManifest(Manifest manifest, List<String> exclusions) {

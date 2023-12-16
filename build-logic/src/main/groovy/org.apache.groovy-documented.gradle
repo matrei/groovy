@@ -67,7 +67,7 @@ tasks.withType(Javadoc).configureEach {
 }
 
 tasks.withType(Groovydoc).configureEach {
-    if (sourceSets.findByName('main')) {
+    if (sourceSets.named('main').get()) {
         source = sourceSets.main.allSource
     }
     groovyClasspath = configurations.groovydocClasspath

@@ -79,7 +79,7 @@ class PerformanceTestsExtension {
             conf.resolutionStrategy {
                 disableDependencyVerification()
             }
-            conf.extendsFrom(configurations.getByName("stats"))
+            conf.extendsFrom(configurations.named("stats").get())
             conf.attributes {
                 it.attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.LIBRARY))
                 it.attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling, Bundling.EXTERNAL))
@@ -116,7 +116,7 @@ class PerformanceTestsExtension {
         def perfTest = tasks.register("performanceTestGroovy${version}", JavaExec) { je ->
             je.group = "Performance tests"
             je.mainClass.set('org.apache.groovy.perf.CompilerPerformanceTest')
-            je.classpath(groovyConf, sourceSets.getByName('test').output)
+            je.classpath(groovyConf, sourceSets.named('test').get().output)
             je.jvmArgs = ['-Xms512m', '-Xmx512m']
             je.outputs.file(outputFile)
             je.doFirst {

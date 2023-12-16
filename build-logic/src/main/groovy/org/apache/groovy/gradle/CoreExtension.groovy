@@ -39,7 +39,7 @@ class CoreExtension {
 
     void bridgedClasses(String... classes) {
         classes.each {
-            def baseDir = sourceSets.getByName("main").java.classesDirectory.get().asFile
+            def baseDir = sourceSets.named("main").get().java.classesDirectory.get().asFile
             classesToBridge.from(new File(baseDir, "/" + it.replace((char) '.', (char) '/') + ".class"))
         }
     }
