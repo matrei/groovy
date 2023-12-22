@@ -269,4 +269,7 @@ tasks.named("dependencyUpdates")?.configure {
 
 artifacts {
     grapesRuntimeElements file: jar.archiveFile.get().asFile, type: 'jar'
+    xstreamAstRuntimeElements file: jar.archiveFile.get().asFile, type: 'jar'
+    gparsRuntimeElements file: jar.archiveFile.get().asFile, type: 'jar'
+    loggingRuntimeElements file: jar.archiveFile.get().asFile, type: 'jar'
 }
